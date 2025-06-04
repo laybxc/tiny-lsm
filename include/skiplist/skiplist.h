@@ -21,6 +21,8 @@ struct SkipListNode {
   std::string key_;   // 节点存储的键
   std::string value_; // 节点存储的值
   uint64_t tranc_id_; // 事务 id
+  // 这里用 weak_ptr 避免了循环引用问题:
+  // 即一个节点的shared_ptr指针指向另一个节点, 另一个节点的shared_ptr指针指向前者, 这样就会造成两个节点的析构都无法进行
   std::vector<std::shared_ptr<SkipListNode>>
       forward_; // 指向不同层级的下一个节点的指针数组
   std::vector<std::weak_ptr<SkipListNode>>
